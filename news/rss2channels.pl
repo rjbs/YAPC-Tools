@@ -34,9 +34,11 @@ sub post_to_mailing_list {
              From    => $config->get('mailing_list/from'),
              Subject => $post->{title},
          ],
-         attributes => { charset => "utf8" },
          body      => $post->{description},
          text_body => HTML::FormatText::Html2text->format_string($post->{description}),
+
+         body_attributes      => { charset => 'utf-8' },
+         text_body_attributes => { charset => 'utf-8' },
      );
      Email::Sender::Simple->send($email, { transport => $transport });
      last if $config->get('enable/most_recent_only');
